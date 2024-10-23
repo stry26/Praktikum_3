@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        #container {
+            width: 300px;
+            margin: 0 auto;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            background-color: #f0f0f0;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.completed {
+            text-decoration: line-through;
+            background-color: #d4edda;
+        }
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h2>My To-Do List</h2>
+        <input type="text" id="newTask" placeholder="Add a new task...">
+        <button onclick="addTask()">Add</button>
+
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        // Add a task
+        function addTask() {
+            const taskText = document.getElementById('newTask').value;
+            if (taskText === '') return;
+
+            const li = document.createElement('li');
+            li.innerHTML = `<span ondblclick="editTask(this)">${taskText}</span>
+                            <button class="delete-btn" onclick="deleteTask(this)">X</button>`;
+            li.addEventListener('click', function() {
+                li.classList.toggle('completed');
+            });
+
+            document.getElementById('taskList').appendChild(li);
+            document.getElementById('newTask').value = ''; // Clear input field
+        }
+
+        // Delete a task
+        function deleteTask(element) {
+            element.parentElement.remove();
+        }
+
+        // Edit a task
+        function editTask(element) {
+            const currentText = element.innerText;
+            const newText = prompt("Edit the task:", currentText);
+            if (newText !== null && newText !== '') {
+                element.innerText = newText;
+            }
+        }
+    </script>
+
+</body>
+</html>
